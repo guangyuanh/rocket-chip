@@ -296,6 +296,8 @@ class CSRFile(perfEventSets: EventSets = new EventSets(Seq()))(implicit p: Param
   val reg_sptbr = Reg(new PTBR)
   val reg_wfi = Reg(init=Bool(false))
 
+  val reg_uaddrh = Reg(Bits(width = xLen))
+
   val reg_fflags = Reg(UInt(width = 5))
   val reg_frm = Reg(UInt(width = 3))
 
@@ -435,6 +437,8 @@ class CSRFile(perfEventSets: EventSets = new EventSets(Seq()))(implicit p: Param
     read_mapping += CSRs.scounteren -> reg_scounteren
     read_mapping += CSRs.mideleg -> reg_mideleg
     read_mapping += CSRs.medeleg -> reg_medeleg
+
+    read_mapping += CSRs.uaddrh -> reg_uaddrh
   }
 
   val pmpCfgPerCSR = xLen / new PMPConfig().getWidth
@@ -700,6 +704,8 @@ class CSRFile(perfEventSets: EventSets = new EventSets(Seq()))(implicit p: Param
       when (decoded_addr(CSRs.mideleg))  { reg_mideleg := wdata & delegable_interrupts }
       when (decoded_addr(CSRs.medeleg))  { reg_medeleg := wdata & delegable_exceptions }
       when (decoded_addr(CSRs.scounteren)) { reg_scounteren := wdata & UInt(delegable_counters) }
+
+      when (decoded_addr(CSRs.uaddrh)) { reg_uaddrh := wdata }
     }
     if (usingUser) {
       when (decoded_addr(CSRs.mcounteren)) { reg_mcounteren := wdata & UInt(delegable_counters) }

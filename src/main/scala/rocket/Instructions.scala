@@ -287,6 +287,9 @@ object CSRs {
   val fflags = 0x1
   val frm = 0x2
   val fcsr = 0x3
+
+  val uaddrh = 0x50
+
   val cycle = 0xc00
   val time = 0xc01
   val instret = 0xc02
@@ -500,6 +503,7 @@ object CSRs {
     res += fflags
     res += frm
     res += fcsr
+    res += uaddrh
     res += cycle
     res += time
     res += instret
