@@ -154,7 +154,21 @@ class WithNBreakpoints(hwbp: Int) extends Config ((site, here, up) => {
 })
 
 class WithRoccExample extends Config((site, here, up) => {
-  case BuildRoCC => Seq(
+    case RocketTilesKey => up(RocketTilesKey, site) map { r =>
+      r.copy(rocc = Seq(
+        RoCCParams(
+          opcodes = OpcodeSet.custom0,
+          generator = (p: Parameters) => Module(new AccumulatorExample()(p))),
+        RoCCParams(
+          opcodes = OpcodeSet.custom1,
+          generator = (p: Parameters) => Module(new TranslatorExample()(p)),
+          nPTWPorts = 1),
+        RoCCParams(
+          opcodes = OpcodeSet.custom2,
+          generator = (p: Parameters) => Module(new CharacterCountExample()(p)))
+      ))
+}
+/*  case BuildRoCC => Seq(
     RoCCParams(
       opcodes = OpcodeSet.custom0,
       generator = (p: Parameters) => Module(new AccumulatorExample()(p))),
@@ -165,6 +179,7 @@ class WithRoccExample extends Config((site, here, up) => {
     RoCCParams(
       opcodes = OpcodeSet.custom2,
       generator = (p: Parameters) => Module(new CharacterCountExample()(p))))
+*/
 
   case RoccMaxTaggedMemXacts => 1
 })
