@@ -210,7 +210,8 @@ class RoCCIO(implicit p: Parameters) extends RoCCCoreIO()(p) {
 
 abstract class RoCC(implicit p: Parameters) extends CoreModule()(p) {
   val io = new RoCCIO
-  io.mem.req.bits.phys := Bool(true) // don't perform address translation
+  //io.mem.req.bits.phys := Bool(true) // don't perform address translation
+  io.mem.req.bits.phys := Bool(false) // do perform address translation
   io.mem.invalidate_lr := Bool(false) // don't mess with LR/SC
 }
 
